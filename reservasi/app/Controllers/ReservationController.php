@@ -20,7 +20,7 @@ class ReservationController extends BaseController
 
         $userModel = new UserModel();
         $user = $userModel->find(1);
-        dd($user);
+       
         // print_r($user);
         $data['user'] = $user;
 

@@ -214,7 +214,7 @@
   <!-- /.control-sidebar -->
 
   <!-- Main Footer -->
-  <footer class="main-footer">
+  <footer class="main-footer fixed-bottom">
     <!-- To the right -->
     <div class="float-right d-none d-sm-inline">
       Anything you want
@@ -233,7 +233,6 @@
 <script src="adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="adminlte/dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="adminlte/dist/js/demo.js"></script>
+
 </body>
 </html>
