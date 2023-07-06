@@ -103,7 +103,7 @@
                                     </select>
                                 </div>
                                 <hr>
-                                <button type="submit" wire:click="save" class="btn btn-primary btn-lg">Simpan</button>
+                                <button type="submit"  class="btn btn-primary btn-lg">Simpan</button>
                             </form>
                             <script>
                                 $(document).ready(function() {
@@ -234,52 +234,3 @@
 
 </div>
 
-<script>
-    $(document).ready(function() {
-
-        
-
-        // Event saat formulir dikirim (submit)
-        $("#formReservasi").submit(function(e) {
-            e.preventDefault();
-
-            // Mendapatkan data dari formulir
-            var kursiReservasi = $("#kursiReservasiInput").val();
-       
-            var nomorTelepon = $("#nomorTelepon").val();
-            var nama = $("#nama").val();
-
-            // Mengirim data ke server menggunakan AJAX
-            $.ajax({
-                url: $(this).attr("action"),
-                method: "POST",
-                data: {
-                    kursi_reservasi: kursiReservasi,
-                    nomor_telepon: nomorTelepon,
-                    nama: nama
-                },
-                success: function(response) {
-                    // Menghandle respons dari server, misalnya menampilkan pesan sukses    
-                    $.ajax({
-                        url: "<?php echo base_url('reservation/getReservasi/') . $idReservasi; ?>", // URL ke controller untuk memuat HTML
-                        type: "GET",
-                        success: function(response) {
-                            $('#kursi_pelanggan').html(response); // Mengisi div dengan HTML yang diterima dari controller
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(xhr.responseText); // Menampilkan pesan error jika terjadi kesalahan
-                        }
-                    });
-                },
-                error: function() {
-                    // Menghandle error, misalnya menampilkan pesan error
-                    alert("Terjadi kesalahan saat menyimpan data");
-                }
-            });
-
-            // Menutup modal
-            $("#myModal").modal("hide");
-        });
-
-    });
-</script>

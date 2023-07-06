@@ -39,7 +39,7 @@
                                 </div>
 
 
-                                <button class="btn btn-sm btn-primary" id="pickSeats_<?= $Nomorkursi[1]['id_kursi']; ?>"><i class="fas fa-user-plus"></i> Pilih</button>
+                                <button class="btn btn-sm btn-primary" onclick="buatReservasi(<?php echo $Nomorkursi[1]['id_kursi']; ?>)" id="pickSeats_<?= $Nomorkursi[1]['id_kursi']; ?>"><i class="fas fa-user-plus"></i> Pilih</button>
 
 
                             </div>
@@ -54,7 +54,7 @@
             <td class="" width="33.333333333333%" style="vertical-align: middle; text-align: center">
                 <img src="https://sys.goshuttle.co.id/images/icons/steer.svg" alt="driver" style="width: 3rem">
                 <br>
-                <strong>Wawan setiawan</strong>
+                <strong><?= $reservasi['nama_sopir']; ?></strong>
             </td>
         </tr>
 
@@ -98,7 +98,7 @@
                                 </div>
 
 
-                                <button class="btn btn-sm btn-primary" id="pickSeats_<?= $Nomorkursi[2]['id_kursi']; ?>"><i class="fas fa-user-plus"></i> Pilih</button>
+                                <button class="btn btn-sm btn-primary" onclick="buatReservasi(<?php echo $Nomorkursi[2]['id_kursi']; ?>)" id="pickSeats_<?= $Nomorkursi[2]['id_kursi']; ?>"><i class="fas fa-user-plus"></i> Pilih</button>
 
                             </div>
                         </div>
@@ -145,7 +145,7 @@
                                 </div>
 
 
-                                <button class="btn btn-sm btn-primary" id="pickSeats_<?= $Nomorkursi[3]['id_kursi']; ?>"><i class="fas fa-user-plus"></i> Pilih</button>
+                                <button class="btn btn-sm btn-primary" onclick="buatReservasi(<?php echo $Nomorkursi[3]['id_kursi']; ?>)" id="pickSeats_<?= $Nomorkursi[3]['id_kursi']; ?>"><i class="fas fa-user-plus"></i> Pilih</button>
 
                             </div>
                         </div>
@@ -198,7 +198,7 @@
                                 </div>
 
 
-                                <button class="btn btn-sm btn-primary" id="pickSeats_<?= $Nomorkursi[4]['id_kursi']; ?>"><i class="fas fa-user-plus"></i> Pilih</button>
+                                <button class="btn btn-sm btn-primary" onclick="buatReservasi(<?php echo $Nomorkursi[4]['id_kursi']; ?>)" id="pickSeats_<?= $Nomorkursi[4]['id_kursi']; ?>"><i class="fas fa-user-plus"></i> Pilih</button>
 
 
                             </div>
@@ -246,7 +246,7 @@
                                 </div>
 
 
-                                <button class="btn btn-sm btn-primary" id="pickSeats_<?= $Nomorkursi[5]['id_kursi']; ?>"><i class="fas fa-user-plus"></i> Pilih</button>
+                                <button class="btn btn-sm btn-primary" onclick="buatReservasi(<?php echo $Nomorkursi[5]['id_kursi']; ?>)" id="pickSeats_<?= $Nomorkursi[5]['id_kursi']; ?>"><i class="fas fa-user-plus"></i> Pilih</button>
 
 
                             </div>
@@ -254,6 +254,7 @@
                     <?php endif; ?>
 
                 </div>
+
             </td>
         </tr>
 
@@ -297,7 +298,7 @@
                                 </div>
 
 
-                                <button class="btn btn-sm btn-primary" id="pickSeats_<?= $Nomorkursi[6]['id_kursi']; ?>"><i class="fas fa-user-plus"></i> Pilih</button>
+                                <button class="btn btn-sm btn-primary" onclick="buatReservasi(<?php echo $Nomorkursi[6]['id_kursi']; ?>)" id="pickSeats_<?= $Nomorkursi[6]['id_kursi']; ?>"><i class="fas fa-user-plus"></i> Pilih</button>
 
 
                             </div>
@@ -346,7 +347,7 @@
                                 </div>
 
 
-                                <button class="btn btn-sm btn-primary" id="pickSeats_<?= $Nomorkursi[7]['id_kursi']; ?>"><i class="fas fa-user-plus"></i> Pilih</button>
+                                <button class="btn btn-sm btn-primary" onclick="buatReservasi(<?php echo $Nomorkursi[7]['id_kursi']; ?>)" id="pickSeats_<?= $Nomorkursi[7]['id_kursi']; ?>"><i class="fas fa-user-plus"></i> Pilih</button>
 
                             </div>
                         </div>
@@ -392,7 +393,7 @@
                                 </div>
 
 
-                                <button class="btn btn-sm btn-primary" id="pickSeats_<?= $Nomorkursi[8]['id_kursi']; ?>"><i class="fas fa-user-plus"></i> Pilih</button>
+                                <button class="btn btn-sm btn-primary" onclick="buatReservasi(<?php echo $Nomorkursi[8]['id_kursi']; ?>)" id="pickSeats_<?= $Nomorkursi[8]['id_kursi']; ?>"><i class="fas fa-user-plus"></i> Pilih</button>
 
 
                             </div>
@@ -406,7 +407,7 @@
 
     </tbody>
 </table>
-<div class="modal" id="myModal">
+<div class="modal" id="kursiReservasi">
     <div class="modal-dialog">
         <div class="modal-content">
             <!-- Konten modal -->
@@ -423,7 +424,7 @@
                         <input type="text" name="nama" id="nama" class="form-control">
                     </div>
 
-                    <input type="hidden" name="kursi_reservasi" id="kursiReservasiInput">
+                    <input type="text" name="kursi_reservasi" id="kursiReservasiInput">
 
 
 
@@ -645,6 +646,12 @@
     </div>
 </div>
 <script>
+    function buatReservasi(id) {
+        $('#kursiReservasi').modal('show');
+        $('#kursiReservasiInput').val(id);
+    }
+</script>
+<script>
     $(document).ready(function() {
 
 
@@ -674,7 +681,10 @@
                         url: "<?php echo base_url('reservation/getReservasi/') . $idReservasi; ?>", // URL ke controller untuk memuat HTML
                         type: "GET",
                         success: function(response) {
+                            $('#kursiReservasi').modal('hide');
                             $('#kursi_pelanggan').html(response); // Mengisi div dengan HTML yang diterima dari controller
+                           
+
                         },
                         error: function(xhr, status, error) {
                             console.error(xhr.responseText); // Menampilkan pesan error jika terjadi kesalahan
