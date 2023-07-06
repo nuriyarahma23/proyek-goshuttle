@@ -13,7 +13,7 @@ class PaketModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields = ['pengirim', 'nomor_pengirim', 'penerima', 'nomor_penerima', 'berat', 'jumlah_koli', 'jenis', 'isi', 'created_at', 'updated_at'];
+    protected $allowedFields = ['pengirim', 'nomor_pengirim', 'penerima', 'nomor_penerima', 'berat', 'jumlah_koli', 'jenis', 'isi','harga' ,'id_reservasi', 'created_at', 'updated_at'];
 
     // Dates
     protected $useTimestamps = false;

@@ -31,17 +31,27 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
+
+
+
+//  WARNING !!! 
+//  PENAMAAN ROUTE as MENGGUNAKAN  CAMELCASE ATAU TULISAN TANPA SPASI
+// 
+
 $routes->get('/', 'Home::index');
 
 
 $routes->get('reservation/', 'ReservationController::index', ['as' => 'reservasi']);
+$routes->get('reservation/getKursireservasi/(:any)', 'ReservationController::kursiReservasi/$1', ['as' => 'kursireservasi']);
 $routes->get('reservation/getReservasi/(:any)/', 'ReservationController::getReservasi/$1');
 $routes->post('reservation/listReservasi/', 'ReservationController::getListReservasi', ['as' => 'listReservasi']);
+// Edit Reservasi
+$routes->post('/reservations/update/(:num)', 'ReservationSopirdanMobilController::update/$1');
 
 
 
 // Route untuk ke Paket
-$routes->get('/paket', 'PaketController::index');
+$routes->get('/paket/(:num)', 'PaketController::index/$1', ['as' => 'paket']);
 $routes->get('/paket/create', 'PaketController::create');
 $routes->post('/paket/store', 'PaketController::store');
 $routes->get('/paket/edit/(:num)', 'PaketController::edit/$1');

@@ -34,8 +34,21 @@ class Reservasi extends Migration
                 'null' => false
 
             ],
+            'id_sopir' => [
+                'type' => 'int',
+                'unsigned' => true,
+                
+            ],
+            'id_mobil' => [
+                'type' => 'int',
+                'unsigned' => true,
+               
+            ]
         ]);
         $this->forge->addPrimaryKey('id_reservasi');
+        $this->forge->addForeignKey('id_sopir', 'sopir', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('id_mobil', 'mobil', 'id', 'CASCADE', 'CASCADE');
+
         $this->forge->createTable('reservasi');
         // Menambahkan data mock
 

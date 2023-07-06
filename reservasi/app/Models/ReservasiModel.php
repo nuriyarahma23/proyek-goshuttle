@@ -19,7 +19,9 @@ class ReservasiModel extends Model
         'tujuan_kota',
         'waktu',
         'harga',
-        'tanggal_reservasi'
+        'tanggal_reservasi',
+        'id_sopir',
+        'id_mobil'
     ];
 
     // Dates

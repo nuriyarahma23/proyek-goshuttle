@@ -15,6 +15,10 @@ class Paket extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
+            'id_reservasi'  => [
+                'type'     => 'INT',
+                'unsigned' => true,
+            ],
             'pengirim' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
@@ -47,6 +51,10 @@ class Paket extends Migration
                 'type' => 'TEXT',
                 'null' => true,
             ],
+            'harga' => [
+                'type' => 'TEXT',
+
+            ],
             'created_at' => [
                 'type' => 'DATETIME',
                 'null' => true,
@@ -57,6 +65,7 @@ class Paket extends Migration
             ],
         ]);
         $this->forge->addKey('id', true);
+        $this->forge->addForeignKey('id_reservasi', 'reservasi', 'id_reservasi', 'CASCADE', 'CASCADE');
         $this->forge->createTable('paket');
     }
 

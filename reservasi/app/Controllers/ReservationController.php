@@ -81,6 +81,49 @@ class ReservationController extends BaseController
         // Mengambil data Reservasi dengan id_reservasi 1
 
         $reservasi = $reservasiModel->find($id);
+        $db = \Config\Database::connect();
+        $reservasi0 = $db->query("SELECT * FROM `reservasi` JOIN `sopir` ON sopir.id = reservasi.id_sopir JOIN `mobil` ON mobil.id = reservasi.id_mobil WHERE reservasi.id_reservasi = $id;")->getResultArray();
+        $reservasi = $reservasi0[0];
+
+
+
+        // Mengambil data KursiPenumpang yang terkait dengan Reservasi
+        $kursiPenumpang = $kursiPenumpangModel->where('id_reservasi', $reservasi['id_reservasi'])->findAll();
+    
+        $nomorKursiPenumpang = [];
+        $no = 1;
+        foreach ($kursiPenumpang as $kursi) {
+            $nomorKursiPenumpang[$kursi['nomor_kursi']] = $kursi;
+            $no++;
+        }
+        $Nomorkursi = $nomorKursiPenumpang;
+
+        // Menampilkan Mobil
+        $db = db_connect();
+        $builder = $db->table('mobil');
+        $mobil = $builder->get()->getResult();
+        // Menampilkan data Sopir
+        $builder1 = $db->table('sopir');
+        $sopir = $builder1->get()->getResult();
+       
+        // Konten HTML yang akan dimuat dari controller
+        
+     
+        // Mengambil tampilan HTML dari view
+        $html = view('reservation/reservation', ['Nomorkursi' => $Nomorkursi, 'idReservasi' => $id, 'reservasi' => $reservasi, 'mobil' => $mobil, 'sopir' => $sopir]);
+
+        // Mengembalikan respons berupa HTML
+        return $html;
+    }
+    public function kursiReservasi($id)
+    {
+        
+        $reservasiModel = new ReservasiModel();
+        $kursiPenumpangModel = new KursipenumpangModel();
+
+        // Mengambil data Reservasi dengan id_reservasi 1
+
+        $reservasi = $reservasiModel->find($id);
 
 
         // Mengambil data KursiPenumpang yang terkait dengan Reservasi
@@ -106,11 +149,14 @@ class ReservationController extends BaseController
         
 
         // Mengambil tampilan HTML dari view
-        $html = view('reservation/reservation', ['Nomorkursi' => $nomorKursiPenumpang, 'idReservasi' => $id, 'reservasi' => $reservasi, 'mobil' => $mobil, 'sopir' => $sopir]);
+        $html = view('reservation/menu/kursireservasi', ['Nomorkursi' => $nomorKursiPenumpang, 'idReservasi' => $id, 'reservasi' => $reservasi, 'mobil' => $mobil, 'sopir' => $sopir]);
 
         // Mengembalikan respons berupa HTML
         return $html;
+
     }
+
+
 
     public function simpan()
     {

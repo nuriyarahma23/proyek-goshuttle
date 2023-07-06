@@ -7,12 +7,20 @@ use App\Models\PaketModel;
 
 class PaketController extends BaseController
 {
-    public function index()
+    protected $paket;
+    public function __construct()
     {
-        $model = new PaketModel();
-        $data['paket'] = $model->findAll();
+        $this->paket = new PaketModel();
+    }
+    public function index($id)
+    {
+        $db = \Config\Database::connect();
+        $query = $db->query('SELECT paket.*, reservasi.asal_kota from paket JOIN reservasi ON reservasi.id_reservasi = paket.id_reservasi WHERE reservasi.id_reservasi = ' . $id . ';');
+        // $paketModel = $this->paket->where('id_reservasi', $id)->get();
+        $paket = $query->getResult();
 
-        return view('paket/index', $data);
+
+        return view('reservation/menu/paket', ['paket' => $paket, 'id' => $id]);
     }
 
     public function create()
@@ -23,7 +31,7 @@ class PaketController extends BaseController
     public function store()
     {
         $model = new PaketModel();
-        
+
 
         $data = [
             'pengirim' => $this->request->getPost('sender_name'),
@@ -34,14 +42,16 @@ class PaketController extends BaseController
             'jumlah_koli' => $this->request->getPost('piece'),
             'jenis' => $this->request->getPost('type'),
             'isi' => $this->request->getPost('content'),
+            'id_reservasi' => $this->request->getPost('id_reservasi'),
+            'harga' => $this->request->getPost('harga'),
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ];
-      
+
         $model->insert($data);
         echo "Berhasil";
 
-          return redirect()->back();
+        return redirect()->back();
     }
 
 
@@ -67,12 +77,14 @@ class PaketController extends BaseController
             'jumlah_koli' => $this->request->getPost('piece'),
             'jenis' => $this->request->getPost('type'),
             'isi' => $this->request->getPost('content'),
+            'id_reservasi' => $this->request->getPost('id_reservasi'),
+            'harga' => $this->request->getPost('harga'),
+            'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ];
-
         $model->update($id, $data);
 
-         return redirect()->back();
+        return redirect()->back();
     }
 
     public function delete($id)
@@ -80,6 +92,6 @@ class PaketController extends BaseController
         $model = new PaketModel();
         $model->delete($id);
 
-         return redirect()->back();
+        return redirect()->back();
     }
 }
