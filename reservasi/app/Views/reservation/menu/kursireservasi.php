@@ -39,6 +39,8 @@
                                 </div>
 
 
+
+
                                 <button class="btn btn-sm btn-primary" onclick="buatReservasi(<?php echo $Nomorkursi[1]['id_kursi']; ?>)" id="pickSeats_<?= $Nomorkursi[1]['id_kursi']; ?>"><i class="fas fa-user-plus"></i> Pilih</button>
 
 
@@ -411,32 +413,60 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <!-- Konten modal -->
-            <form id="formReservasi" action="<?= route_to('simpanReservasi') ?>" method="post">
+            <?php
+
+            $waktuReservasi = strtotime($reservasi['waktu']);
+            $waktuSaatIni = time();
+            if ($waktuReservasi < $waktuSaatIni) { ?>
 
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="nomorTelepon">Nomor Telepon</label>
-                        <input type="text" name="nomor_telepon" id="nomorTelepon" class="form-control">
+                    <div class="alert alert-danger mt-2">
+                        <h5>Reservasi telah usai.</h5>
                     </div>
+                    <!-- Tombol close modal -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
 
-                    <div class="form-group">
-                        <label for="nama">Nama</label>
-                        <input type="text" name="nama" id="nama" class="form-control">
                     </div>
-
-                    <input type="text" name="kursi_reservasi" id="kursiReservasiInput">
-
-
-
-
                 </div>
 
-                <!-- Tombol close modal -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </div>
-            </form>
+
+
+
+            <?php
+            } else {
+
+            ?>
+                <form id="formReservasi" action="<?= route_to('simpanReservasi') ?>" method="post">
+
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="nomorTelepon">Nomor Telepon</label>
+                            <input type="text" name="nomor_telepon" id="nomorTelepon" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nama">Nama</label>
+                            <input type="text" name="nama" id="nama" class="form-control">
+                        </div>
+
+                        <input type="hidden" name="kursi_reservasi" id="kursiReservasiInput">
+
+
+
+
+                    </div>
+
+                    <!-- Tombol close modal -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            <?php
+            }
+            ?>
         </div>
     </div>
 </div>
@@ -449,7 +479,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="ResevationDetailLabel">Reservasi #53281</h5>
+                <h5 class="modal-title" id="ResevationDetailLabel">Reservasi #1231313131 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -576,71 +606,8 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <form wire:submit.prevent="save">
-                    <div class="form-group">
-                        <label>Asal</label>
+            <div class="modal-body" id="bodyReschedule">
 
-
-                        <select class="form-control form-control-sm" wire:model="departurePointId">
-                            <option value="">Berangkat dari</option>
-                            <optgroup label="BANDUNG">
-                                <option value="1"> CIHAMPELAS</option>
-                            </optgroup>
-                            <optgroup label="JAKARTA">
-                                <option value="3"> BEKASI</option>
-                                <option value="4"> CIBUBUR</option>
-                                <option value="5"> DEPOK</option>
-                                <option value="2"> JATIWARINGIN</option>
-                            </optgroup>
-                        </select>
-
-                    </div>
-                    <div class="form-group">
-                        <label>Tujuan</label>
-
-
-                        <select class="form-control form-control-sm" wire:model="arrivalPointId">
-                            <option value="">Berangkat dari</option>
-                            <optgroup label="BANDUNG">
-                                <option value="1"> CIHAMPELAS</option>
-                            </optgroup>
-                            <optgroup label="JAKARTA">
-                                <option value="3"> BEKASI</option>
-                                <option value="4"> CIBUBUR</option>
-                                <option value="5"> DEPOK</option>
-                                <option value="2"> JATIWARINGIN</option>
-                            </optgroup>
-                        </select>
-
-                    </div>
-                    <div class="form-group">
-                        <label>Tanggal</label>
-                        <input class="form-control" type="date" min="2023-07-05" wire:model="date" wire:change="findNewDeparture">
-                    </div>
-                    <div class="form-group">
-                        <label>Nomor Kursi</label>
-
-
-                        <select class="form-control form-control-sm" wire:model="arrivalPointId">
-                            <option value="">Berangkat dari</option>
-                            <optgroup label="BANDUNG">
-                                <option value="1"> CIHAMPELAS</option>
-                            </optgroup>
-                            <optgroup label="JAKARTA">
-                                <option value="3"> BEKASI</option>
-                                <option value="4"> CIBUBUR</option>
-                                <option value="5"> DEPOK</option>
-                                <option value="2"> JATIWARINGIN</option>
-                            </optgroup>
-                        </select>
-
-                    </div>
-
-
-
-
-                </form>
             </div>
         </div>
     </div>
@@ -649,6 +616,8 @@
     function buatReservasi(id) {
         $('#kursiReservasi').modal('show');
         $('#kursiReservasiInput').val(id);
+        // Mengirim data ke server menggunakan AJAX
+
     }
 </script>
 <script>
@@ -683,7 +652,7 @@
                         success: function(response) {
                             $('#kursiReservasi').modal('hide');
                             $('#kursi_pelanggan').html(response); // Mengisi div dengan HTML yang diterima dari controller
-                           
+
 
                         },
                         error: function(xhr, status, error) {
@@ -701,6 +670,11 @@
             $("#myModal").modal("hide");
         });
 
+
+
+
+
+
     });
 </script>
 <script>
@@ -716,14 +690,14 @@
         $('#ReservationDetail').modal('show'); // Menampilkan modal
 
         $.ajax({
-            url: 'kursipenumpang/' + id, // Ganti dengan URL yang sesuai
+            url: 'kursipenumpang/getList/' + id, // Ganti dengan URL yang sesuai
             method: 'GET', // Ganti dengan metode HTTP yang sesuai
             success: function(response) {
                 // Callback fungsi ini akan dijalankan saat permintaan Ajax berhasil
                 // Ambil data yang diterima dari server
                 // Menguraikan respons JSON menjadi objek JavaScript
                 var data = JSON.parse(response);
-                alert(JSON.stringify(data.note));
+              
 
                 // Mengambil nilai dari objek data
                 var kode = data.kode;
@@ -741,6 +715,18 @@
             error: function() {
                 // Callback fungsi ini akan dijalankan jika terjadi kesalahan saat permintaan Ajax
                 console.log('Error: Gagal mengambil data dari server');
+            }
+        });
+        $.ajax({
+            url: "kursipenumpang/reschedule/" + id,
+            method: "GET",
+            success: function(response) {
+
+                $('#bodyReschedule').html(response); // Mengisi div dengan HTML yang diterima dari controller
+            },
+            error: function() {
+                // Menghandle error, misalnya menampilkan pesan error
+                alert("Terjadi kesalahan saat memuat data");
             }
         });
     }

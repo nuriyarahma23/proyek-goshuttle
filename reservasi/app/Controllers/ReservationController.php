@@ -16,6 +16,20 @@ class ReservationController extends BaseController
     {
         $reservasiModel = new ReservasiModel();
         $reservasi = $reservasiModel->findAll();
+        // dd($reservasi);
+        $kotaModel = new KotaModel();
+        $kotaData = $kotaModel->findAll();
+        $kota = [];
+        // dd($kotaData);
+        $grup_kota0 = [];
+        foreach ($kotaData as $kd) {
+
+            $kota[$kd['grup_kota']][] = $kd;
+            $grup_kota0[] = $kd['grup_kota'];
+        }
+
+        $grup_kota = array_unique($grup_kota0);
+
 
 
         $userModel = new UserModel();
@@ -24,7 +38,7 @@ class ReservationController extends BaseController
         // print_r($user);
         $data['user'] = $user;
 
-        return view('reservation/index', ['user' => $user, 'reservasi' => $reservasi]);
+        return view('reservation/index', ['user' => $user, 'reservasi' => $reservasi, 'kota' => $kota, 'grup_kota' => $grup_kota]);
     }
     public function getListReservasi()
     {
@@ -118,7 +132,7 @@ class ReservationController extends BaseController
     public function kursiReservasi($id)
     {
 
-        $reservasiModel = new ReservasiModel();
+
         $kursiPenumpangModel = new KursipenumpangModel();
 
         // Mengambil data Reservasi dengan id_reservasi 1
@@ -156,7 +170,7 @@ class ReservationController extends BaseController
         return $html;
     }
 
-
+   
 
     public function simpan()
     {

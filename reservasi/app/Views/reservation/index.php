@@ -7,6 +7,12 @@
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
 <div class="content">
+    <?php if (session()->getFlashdata('success')) : ?>
+        <div class="alert alert-success">
+            <?php echo session()->getFlashdata('success'); ?>
+        </div>
+    <?php endif; ?>
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
@@ -25,30 +31,43 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <label for="asal_tujuan">Asal - Tujuan</label>
+                                                <label for="asal_tujuan">Asal - Tujuan <br></label>
                                                 <select class="form-control form-control-sm" id="departurePointId" name="asal">
                                                     <option value="">Berangkat dari</option>
-                                                    <optgroup label="BANDUNG">
-                                                        <option value="1">CIHAMPELAS</option>
-                                                    </optgroup>
-                                                    <optgroup label="JAKARTA">
-                                                        <option value="3">BEKASI</option>
-                                                        <option value="4">CIBUBUR</option>
-                                                        <option value="5">DEPOK</option>
-                                                        <option value="2">JATIWARINGIN</option>
-                                                    </optgroup>
+                                                    <?php
+                                                    foreach ($grup_kota as $grup) :
+                                                    ?>
+                                                        <optgroup label="<?php echo $grup ?>">
+                                                            <?php foreach ($kota[$grup] as $ktd) : ?>
+                                                                <option value="<?php echo $ktd['id_kota'] ?>"><?php echo $ktd['nama_kota'] ?></option>
+                                                            <?php endforeach; ?>
+                                                        </optgroup>
+
+                                                    <?php endforeach;
+
+
+
+                                                    ?>
+
+
+
                                                 </select>
                                                 <select class="form-control form-control-sm mt-2" id="arrivalPointId" name="tujuan">
                                                     <option value="">Tujuan</option>
-                                                    <optgroup label="BANDUNG">
-                                                        <option value="1"> CIHAMPELAS</option>
-                                                    </optgroup>
-                                                    <optgroup label="JAKARTA">
-                                                        <option value="3"> BEKASI</option>
-                                                        <option value="4"> CIBUBUR</option>
-                                                        <option value="5"> DEPOK</option>
-                                                        <option value="2"> JATIWARINGIN</option>
-                                                    </optgroup>
+                                                    <?php
+                                                    foreach ($grup_kota as $grup) :
+                                                    ?>
+                                                        <optgroup label="<?php echo $grup ?>">
+                                                            <?php foreach ($kota[$grup] as $ktd) : ?>
+                                                                <option value="<?php echo $ktd['id_kota'] ?>"><?php echo $ktd['nama_kota'] ?></option>
+                                                            <?php endforeach; ?>
+                                                        </optgroup>
+
+                                                    <?php endforeach;
+
+
+
+                                                    ?>
                                                 </select>
 
 
@@ -81,7 +100,7 @@
 
 
             <div class="col-lg-12" id="kursi_pelanggan">
-                
+
             </div>
         </div>
         <!-- /.row -->
